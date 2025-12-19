@@ -20,7 +20,6 @@ const Header: React.FC<HeaderProps> = ({ coinBalance = 456.92 }) => {
             <TouchableOpacity style={styles.coinBadge} activeOpacity={0.9}>
                 <View style={styles.coinIcon}>
                     <Icon name="gc-coin" size={14} color={colors.text.primary} />
-                    {/* <Text style={styles.coinIconText}>GC</Text> */}
                 </View>
                 <Text style={styles.coinValue}>{coinBalance.toFixed(2)}</Text>
             </TouchableOpacity>
@@ -78,11 +77,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginRight: 8,
     },
-    coinIconText: {
-        color: colors.text.primary,
-        fontSize: 10,
-        fontWeight: typography.fontWeight.bold,
-    },
     coinValue: {
         color: colors.text.primary,
         fontSize: typography.fontSize.xl,
@@ -95,12 +89,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.purple.vibrant,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    scText: {
-        color: colors.text.primary,
-        fontSize: 12,
-        fontWeight: typography.fontWeight.bold,
-    },
+    }
 });
 
 export default Header;
