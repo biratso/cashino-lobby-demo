@@ -20,11 +20,16 @@ export const useResponsive = () => {
   else if (width >= 768) columns = 4;
   else if (isLandscape) columns = 4;
 
+  let regionalTop10Columns = 2;
+  if (isTablet) regionalTop10Columns = 3;
+  if (width >= 1024) regionalTop10Columns = 4;
+
   return {
     width,
     height,
     isTablet,
     isLandscape,
     columns,
+    regionalTop10Columns,
   };
 };

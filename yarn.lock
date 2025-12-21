@@ -1106,6 +1106,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@expo-google-fonts/figtree@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "@expo-google-fonts/figtree@npm:0.4.1"
+  checksum: 10c0/69678fafe3b0ab82380e038cc68bd39dfa6f6b5f3272e8093d503522b85123357377151747f1abf8192f1a84d15b17ec241293e85606d3f47df4dfcbdabc46d8
+  languageName: node
+  linkType: hard
+
 "@expo/cli@npm:54.0.20":
   version: 54.0.20
   resolution: "@expo/cli@npm:54.0.20"
@@ -1727,6 +1734,16 @@ __metadata:
   peerDependencies:
     react-native: ^0.0.0-0 || >=0.65 <1.0
   checksum: 10c0/84900eba46a40225c4ac9bf5eb58885200dc1e789d873ecda46a2a213870cc7110536ed1fd7a74b873071f3603c093958fbd84c635d6f6d4f94bfbb616ffa0ef
+  languageName: node
+  linkType: hard
+
+"@react-native-masked-view/masked-view@npm:0.3.2":
+  version: 0.3.2
+  resolution: "@react-native-masked-view/masked-view@npm:0.3.2"
+  peerDependencies:
+    react: ">=16"
+    react-native: ">=0.57"
+  checksum: 10c0/4ec84b7af2ded49dc21f17cc723a0ef341076cbe40cf758dd2daff8734bea63ba83e2fee7e63958984385314b8915b6804135997e07697abdd4141217c847fe9
   languageName: node
   linkType: hard
 
@@ -2427,21 +2444,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
+"@types/react@npm:*, @types/react@npm:^19.2.0":
   version: 19.2.7
   resolution: "@types/react@npm:19.2.7"
   dependencies:
     csstype: "npm:^3.2.2"
   checksum: 10c0/a7b75f1f9fcb34badd6f84098be5e35a0aeca614bc91f93d2698664c0b2ba5ad128422bd470ada598238cebe4f9e604a752aead7dc6f5a92261d0c7f9b27cfd1
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:~19.1.0":
-  version: 19.1.17
-  resolution: "@types/react@npm:19.1.17"
-  dependencies:
-    csstype: "npm:^3.0.2"
-  checksum: 10c0/8a8369ea00fc961f0884be4d1da4a039b2b6445de9c8b690ed0ebe15acfb0b1f27005278fef1fe39a1722a30f4415778b790d0089e2b30019371c61355ea316f
   languageName: node
   linkType: hard
 
@@ -3072,16 +3080,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cashino-lobby-demo@workspace:."
   dependencies:
+    "@expo-google-fonts/figtree": "npm:^0.4.1"
     "@react-native-async-storage/async-storage": "npm:^2.2.0"
+    "@react-native-masked-view/masked-view": "npm:0.3.2"
     "@react-navigation/native": "npm:^7.1.26"
     "@react-navigation/native-stack": "npm:^7.9.0"
     "@reduxjs/toolkit": "npm:^2.11.2"
-    "@types/react": "npm:~19.1.0"
+    "@types/react": "npm:^19.2.0"
     "@types/react-dom": "npm:^19"
     "@types/react-native-web": "npm:^0"
     babel-plugin-module-resolver: "npm:^5.0.2"
     expo: "npm:~54.0.30"
     expo-linear-gradient: "npm:~15.0.8"
+    expo-screen-orientation: "npm:~9.0.8"
     expo-status-bar: "npm:~3.0.9"
     react: "npm:19.1.0"
     react-dom: "npm:19.1.0"
@@ -3462,7 +3473,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csstype@npm:^3.0.2, csstype@npm:^3.2.2":
+"csstype@npm:^3.2.2":
   version: 3.2.3
   resolution: "csstype@npm:3.2.3"
   checksum: 10c0/cd29c51e70fa822f1cecd8641a1445bed7063697469d35633b516e60fe8c1bde04b08f6c5b6022136bb669b64c63d4173af54864510fbb4ee23281801841a3ce
@@ -3886,6 +3897,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/e32a87b06aa772f523afa5a995523848c61c06370085ae9e724ad24432cac38925ff69976f58b2c562828c2cefba6df00cfef2dbb206111413890ce1c2baee19
+  languageName: node
+  linkType: hard
+
+"expo-screen-orientation@npm:~9.0.8":
+  version: 9.0.8
+  resolution: "expo-screen-orientation@npm:9.0.8"
+  peerDependencies:
+    expo: "*"
+    react-native: "*"
+  checksum: 10c0/202e571b51b53284aff1e4d2731ec66c6e24f18263b0298d1711e0992dfe7362b04792fe21b2cdd3f9ba033ce34fdb97b7a5cc6180feef41f3222fe47ac7ccc0
   languageName: node
   linkType: hard
 

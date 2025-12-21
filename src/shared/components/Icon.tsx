@@ -5,6 +5,14 @@ import Favorite1 from "@/assets/icons/favorite-1.svg";
 import Grid from "@/assets/icons/grid.svg";
 import GCCoin from "@/assets/icons/gc_coin.svg";
 import SCCoin from "@/assets/icons/funz_coin.svg";
+import Play from "@/assets/icons/play_arrow.svg";
+import FavoriteTab from "@/assets/icons/favorite_tab.svg";
+import GreenPlayIcon from "@/assets/icons/play_green.svg";
+import ChevronLeftGradient from "@/assets/icons/chevron_left_gradient.svg";
+import GameSettings from "@/assets/icons/game_settings.svg";
+import GameMute from "@/assets/icons/game_mute.svg";
+import GameInfo from "@/assets/icons/game_info.svg";
+import GameStartText from "@/assets/icons/game_start_text.svg";
 
 import { ViewStyle } from "react-native";
 
@@ -15,7 +23,15 @@ export type IconName =
   | "favorite1"
   | "grid"
   | "gc-coin"
-  | "sc-coin";
+  | "sc-coin"
+  | "play"
+  | "favorite-tab"
+  | "green-play"
+  | "chevron-left-gradient"
+  | "game-settings"
+  | "game-mute"
+  | "game-info"
+  | "game-start-text";
 
 const ICONS = {
   "facebook-like": FacebookLike,
@@ -24,7 +40,15 @@ const ICONS = {
   "favorite1": Favorite1,
   "grid": Grid,
   "gc-coin": GCCoin,
-  "sc-coin": SCCoin
+  "sc-coin": SCCoin,
+  "play": Play,
+  "favorite-tab": FavoriteTab,
+  "green-play": GreenPlayIcon,
+  "chevron-left-gradient": ChevronLeftGradient,
+  "game-settings": GameSettings,
+  "game-mute": GameMute,
+  "game-info": GameInfo,
+  "game-start-text": GameStartText,
 };
 
 type Props = {

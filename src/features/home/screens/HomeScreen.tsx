@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScrollView, StyleSheet, View, RefreshControl } from 'react-native';
+import { ScrollView, StyleSheet, View, RefreshControl, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppDispatch, useAppSelector } from '@app/store';
@@ -8,8 +8,9 @@ import {
   toggleFavorite,
   saveFavorites,
   setCurrentTab,
-  selectMostPopularGames,
+  selectPersonalisedGames,
   selectRegionalGames,
+  selectAlreadyPlayedGames,
   selectFavoriteGames,
   selectCurrentTab,
   selectFavoriteIds,
@@ -29,10 +30,11 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'H
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const dispatch = useAppDispatch();
-  const { columns } = useResponsive();
+  const { columns, regionalTop10Columns } = useResponsive();
 
-  const mostPopularGames = useAppSelector(selectMostPopularGames);
+  const personalisedGames = useAppSelector(selectPersonalisedGames);
   const regionalGames = useAppSelector(selectRegionalGames);
+  const alreadyPlayedGames = useAppSelector(selectAlreadyPlayedGames);
   const favoriteGames = useAppSelector(selectFavoriteGames);
   const currentTab = useAppSelector(selectCurrentTab);
   const favoriteIds = useAppSelector(selectFavoriteIds);
@@ -91,18 +93,28 @@ const HomeScreen: React.FC = () => {
         {currentTab === 'all' ? (
           <>
             <GameSection
-              title="MOST POPULAR GAMES"
-              icon="🔥"
-              games={mostPopularGames}
+              title="For You"
+              iconName="facebook-like"
+              games={personalisedGames}
               columns={columns}
               onGamePress={handleGamePress}
               onFavoritePress={handleFavoritePress}
             />
 
             <GameSection
-              title="MOST PLAYED IN YOUR REGION"
-              icon="🇦🇪"
+              title="TOP 10 GAMES IN YOUR HOME STATE"
+              iconName="american-flag"
               games={regionalGames}
+              columns={regionalTop10Columns}
+              onGamePress={handleGamePress}
+              onFavoritePress={handleFavoritePress}
+              isRegionalTop10={true}
+            />
+
+            <GameSection
+              title="ALREADY PLAYED"
+              iconName="green-play"
+              games={alreadyPlayedGames}
               columns={columns}
               onGamePress={handleGamePress}
               onFavoritePress={handleFavoritePress}
@@ -111,8 +123,8 @@ const HomeScreen: React.FC = () => {
         ) : (
           <>
             <GameSection
-              title="PLAYERS' FAVORITE GAMES"
-              icon="❤️"
+              title="FAVORITES"
+              iconName="favorite1"
               games={favoriteGames}
               columns={columns}
               onGamePress={handleGamePress}

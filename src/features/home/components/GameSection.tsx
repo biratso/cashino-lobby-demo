@@ -1,45 +1,76 @@
 import React, { memo } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Game } from '@shared/types';
 import GameCard from './GameCard';
 import { colors, typography, spacing, layout } from '@shared/constants/theme';
+import { Icon, IconName } from '@/src/shared/components/Icon';
+import { RankNumber } from '../../../shared/components/RankedGradient';
 
 interface GameSectionProps {
   title: string;
-  icon: string;
+  iconName: IconName;
   games: Game[];
   columns?: number;
   onGamePress: (game: Game) => void;
   onFavoritePress: (gameId: string) => void;
+  isRegionalTop10?: boolean;
 }
 
 const GameSection: React.FC<GameSectionProps> = ({
   title,
-  icon,
+  iconName,
   games,
   columns = 3,
   onGamePress,
   onFavoritePress,
+  isRegionalTop10 = false,
 }) => {
   if (games.length === 0) {
     return null;
   }
 
-  const renderGame = ({ item }: { item: Game }) => (
-    <View style={[styles.cardWrapper, { width: `${100 / columns}%` }]}>
-      <GameCard
-        game={item}
-        onPress={() => onGamePress(item)}
-        onFavoritePress={() => onFavoritePress(item.id)}
-        columns={columns}
-      />
-    </View>
-  );
+  // Calculate card dimensions for square cards
+  const cardGap = layout.gameCardGap;
+  const horizontalPadding = 16 * 2;
+  const totalGaps = (columns - 1) * cardGap;
+  const availableWidth = Dimensions.get('window').width - horizontalPadding - totalGaps;
+  const cardWidth = availableWidth / columns;
+
+  const renderGame = ({ item, index }: { item: Game; index: number }) => {
+    if (isRegionalTop10 && index < 3) {
+      return (
+        <View style={[styles.regionalCardContainer, {paddingLeft: cardWidth * 0.4}]}>
+          <RankNumber value={index + 1} cardWidth={cardWidth} />
+          <View style={styles.cardWrapper}>
+            <GameCard
+              game={item}
+              onPress={() => onGamePress(item)}
+              onFavoritePress={() => onFavoritePress(item.id)}
+              cardWidth={cardWidth}
+              isRegionalTop10={isRegionalTop10}
+            />
+          </View>
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.cardWrapper}>
+        <GameCard
+          game={item}
+          onPress={() => onGamePress(item)}
+          onFavoritePress={() => onFavoritePress(item.id)}
+          cardWidth={cardWidth}
+        />
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.icon}>{icon}</Text>
+        <Icon name={iconName} size={24} color={colors.purple.vibrant} style={styles.icon} />
         <Text style={styles.title}>{title}</Text>
       </View>
 
@@ -47,10 +78,9 @@ const GameSection: React.FC<GameSectionProps> = ({
         data={games}
         renderItem={renderGame}
         keyExtractor={(item) => item.id}
-        numColumns={columns}
-        key={columns}
-        scrollEnabled={false}
-        contentContainerStyle={styles.gridContainer}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.horizontalContainer}
       />
     </View>
   );
@@ -60,6 +90,7 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: layout.sectionMarginBottom,
     paddingHorizontal: layout.containerPadding,
+    // backgroundColor: 'red',
   },
   header: {
     flexDirection: 'row',
@@ -71,17 +102,25 @@ const styles = StyleSheet.create({
     marginRight: spacing.sm,
   },
   title: {
-    fontSize: typography.fontSize.md,
-    fontWeight: typography.fontWeight.bold,
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.black,
     color: colors.text.primary,
-    textTransform: 'uppercase',
     letterSpacing: 1,
   },
-  gridContainer: {
+  horizontalContainer: {
+    paddingRight: spacing.sm,
     paddingBottom: spacing.sm,
+    // backgroundColor: 'red'
+  },
+  regionalCardContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginRight: layout.gameCardGap,
+    marginBottom: layout.gameCardGap,
   },
   cardWrapper: {
-    padding: layout.gameCardGap / 2,
+    marginRight: layout.gameCardGap,
+    // backgroundColor: 'blue',
   },
 });
 

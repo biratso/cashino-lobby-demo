@@ -3,21 +3,23 @@ export const colors = {
         main: '#FFB800',
     },
     purple: {
-        vibrant: '#7B2FBE',
+        vibrant: '#D6BAFF',
         dark: '#5A1E8C',
     },
     background: {
         primary: '#16111C',
         secondary: '#2D2833',
         card: '#2A2238',
+        surface: '#EADEF5',
     },
     text: {
         primary: '#FFFFFF',
         secondary: '#B8B8D1',
     },
     heart: {
-        active: '#FF3366',
+        active: '#D91319',
         background: '#FFFFFF',
+        inactive: '#4B4356',
     },
     coins: {
         gc: '#FFB800',
@@ -26,11 +28,12 @@ export const colors = {
 };
 
 export const typography = {
+    fontFamily: 'Figtree',
     fontSize: {
         xs: 11,
         sm: 13,
         md: 15,
-        lg: 17,
+        lg: 16,
         xl: 20,
         xxl: 24,
         hero: 28,
@@ -41,6 +44,7 @@ export const typography = {
         semibold: '600' as const,
         bold: '700' as const,
         extrabold: '800' as const,
+        black: '900' as const,
     },
 };
 
@@ -52,6 +56,7 @@ export const spacing = {
     xl: 20,
     xxl: 24,
     xxxl: 32,
+    xxxxl: 40,
 };
 
 export const borderRadius = {
@@ -64,10 +69,10 @@ export const borderRadius = {
 };
 
 export const layout = {
-    headerHeight: 80,
-    heroHeight: 550,
-    tabBarHeight: 60,
+    headerHeight: 70,
+    heroHeight: 392,
+    tabBarHeight: 48,
     gameCardGap: 12,
-    sectionMarginBottom: 32,
+    sectionMarginBottom: 14,
     containerPadding: 16,
 };

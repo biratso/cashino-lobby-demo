@@ -4,6 +4,7 @@ export interface Game {
   description: string;
   image: string;
   isFavorite: boolean;
+  alreadyPlayed: boolean;
   popularity: number;
   region: string;
   playerCount: number;

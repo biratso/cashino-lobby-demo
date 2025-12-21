@@ -98,14 +98,19 @@ export const selectFavoriteIds = (state: { games: GamesState }) => state.games.f
 export const selectCurrentTab = (state: { games: GamesState }) => state.games.currentTab;
 export const selectLoadingState = (state: { games: GamesState }) => state.games.loadingState;
 
-export const selectMostPopularGames = createSelector(
+export const selectPersonalisedGames = createSelector(
   [selectAllGames, selectFavoriteIds],
-  (allGames, favoriteIds) => getSectionGames('most-popular', allGames, favoriteIds)
+  (allGames, favoriteIds) => getSectionGames('personalised', allGames, favoriteIds)
 );
 
 export const selectRegionalGames = createSelector(
   [selectAllGames, selectFavoriteIds],
   (allGames, favoriteIds) => getSectionGames('most-played-region', allGames, favoriteIds)
+);
+
+export const selectAlreadyPlayedGames = createSelector(
+  [selectAllGames, selectFavoriteIds],
+  (allGames, favoriteIds) => getSectionGames('already-played', allGames, favoriteIds)
 );
 
 export const selectFavoriteGames = createSelector(
