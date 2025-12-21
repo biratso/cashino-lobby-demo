@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import { View, Text, StyleSheet, FlatList, Dimensions } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Game } from '@shared/types';
 import GameCard from './GameCard';
 import { colors, typography, spacing, layout } from '@shared/constants/theme';
@@ -38,7 +37,7 @@ const GameSection: React.FC<GameSectionProps> = ({
   const cardWidth = availableWidth / columns;
 
   const renderGame = ({ item, index }: { item: Game; index: number }) => {
-    if (isRegionalTop10 && index < 3) {
+    if (isRegionalTop10 && index < 10) {
       return (
         <View style={[styles.regionalCardContainer, {paddingLeft: cardWidth * 0.4}]}>
           <RankNumber value={index + 1} cardWidth={cardWidth} />

@@ -10,18 +10,22 @@ import CoinSwitcher from '@/src/shared/components/CoinSwitcher';
 import { Icon } from '@/src/shared/components/Icon';
 import { GradientText } from '@/src/shared/components/GradientText';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAppDispatch } from '@app/store';
+import { markAlreadyPlayed } from '@features/home/store/gamesSlice';
 
 type GamePlayScreenRouteProp = RouteProp<RootStackParamList, 'GamePlay'>;
 type GamePlayScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'GamePlay'>;
 
 const GamePlayScreen: React.FC = () => {
   const insets = useSafeAreaInsets();
+  const dispatch = useAppDispatch();
   const route = useRoute<GamePlayScreenRouteProp>();
   const navigation = useNavigation<GamePlayScreenNavigationProp>();
   const { gameTitle } = route.params;
 
   const [isSoundOn, setIsSoundOn] = useState(true);
   const [betAmount, setBetAmount] = useState(50.0);
+  const [showStartModal, setShowStartModal] = useState(false);
 
   // Lock orientation to landscape for game play
   useEffect(() => {
@@ -42,18 +46,22 @@ const GamePlayScreen: React.FC = () => {
 
   // Overlay for web: prompt to rotate device
   const [showWebOverlay, setShowWebOverlay] = useState(false);
+  const [windowHeight, setWindowHeight] = useState(
+    typeof window !== 'undefined' ? window.innerHeight : 0
+  );
   useEffect(() => {
     if (Platform.OS === 'web') {
-      const checkOrientation = () => {
+      const handleResize = () => {
+        setWindowHeight(window.innerHeight);
         if (window.innerWidth < window.innerHeight) {
           setShowWebOverlay(true);
         } else {
           setShowWebOverlay(false);
         }
       };
-      checkOrientation();
-      window.addEventListener('resize', checkOrientation);
-      return () => window.removeEventListener('resize', checkOrientation);
+      handleResize();
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
     }
   }, []);
 
@@ -74,11 +82,8 @@ const GamePlayScreen: React.FC = () => {
   };
 
   const handleStart = () => {
-    Alert.alert(
-      'Game Starting!',
-      `Playing ${gameTitle} with bet: ${betAmount.toFixed(2)} GC`,
-      [{ text: 'OK' }]
-    );
+    setShowStartModal(true);
+    dispatch(markAlreadyPlayed(route.params.gameId));
   };
 
   const handleIncreaseBet = () => {
@@ -126,7 +131,6 @@ const GamePlayScreen: React.FC = () => {
         <CoinSwitcher coinBalance={456.92} />
       </View>
 
-      {/* Game Area with Three Images */}
       <View style={styles.gameArea}>
         <View style={styles.imagesContainer}>
           <View style={styles.imageWrapper1x}>
@@ -139,8 +143,15 @@ const GamePlayScreen: React.FC = () => {
         </View>
       </View>
 
-      {/* Bottom Controls */}
-      <View style={styles.bottomControlsWrapper} pointerEvents="box-none">
+      <View
+        style={[
+          styles.bottomControlsWrapper,
+          Platform.OS === 'web' && {
+            bottom: Math.max(24, windowHeight * 0.03),
+          },
+        ]}
+        pointerEvents="box-none"
+      >
         <View style={styles.bottomControls}>
           <View style={styles.leftControls}>
             <TouchableOpacity style={styles.controlButton} onPress={handleSettings}>
@@ -192,6 +203,32 @@ const GamePlayScreen: React.FC = () => {
           </View>
         </View>
       </View>
+
+      {/* Start Modal (Web & Native) */}
+      {(showStartModal) && (
+        <View style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.7)',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 2000,
+        }}>
+          <View style={{ backgroundColor: '#222', borderRadius: 16, padding: 32, alignItems: 'center', maxWidth: 320 }}>
+            <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', marginBottom: 12 }}>Game Starting!</Text>
+            <Text style={{ color: '#fff', fontSize: 16, marginBottom: 24 }}>{`Playing ${gameTitle} with bet: ${betAmount.toFixed(2)} GC`}</Text>
+            <TouchableOpacity
+              style={{ backgroundColor: '#FFB800', borderRadius: 8, paddingHorizontal: 32, paddingVertical: 12 }}
+              onPress={() => setShowStartModal(false)}
+            >
+              <Text style={{ color: '#222', fontWeight: 'bold', fontSize: 16 }}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
 
       {/* Web Overlay Prompt */}
       {showWebOverlay && (

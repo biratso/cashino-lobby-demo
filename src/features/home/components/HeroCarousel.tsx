@@ -30,46 +30,67 @@ const slides = [
 ];
 
 const HeroCarousel: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const flatListRef = useRef<FlatList>(null);
 
+
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [scrollIndex, setScrollIndex] = useState(1);
+  const flatListRef = useRef<FlatList>(null);
+  // Track real index to avoid state desync after jump
+  const realIndexRef = useRef(1);
+
+  const data = [slides[slides.length - 1], ...slides, slides[0]];
+
+
+
+  // For web: update dot during swipe
   const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const slideSize = event.nativeEvent.layoutMeasurement.width;
     const index = event.nativeEvent.contentOffset.x / slideSize;
     const roundIndex = Math.round(index);
-    setCurrentIndex(roundIndex);
+    setScrollIndex(roundIndex);
   };
 
+  const onMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const slideSize = event.nativeEvent.layoutMeasurement.width;
+    const index = event.nativeEvent.contentOffset.x / slideSize;
+    const roundIndex = Math.round(index);
+    setCurrentIndex(roundIndex);
+    setScrollIndex(roundIndex);
+  };
+
+
+  React.useEffect(() => {
+    if (!flatListRef.current) return;
+    if (currentIndex === 0) {
+      flatListRef.current.scrollToIndex({ index: slides.length, animated: false });
+      setTimeout(() => {
+        setCurrentIndex(slides.length);
+        setScrollIndex(slides.length);
+        realIndexRef.current = slides.length;
+      }, 0);
+    } else if (currentIndex === slides.length + 1) {
+      flatListRef.current.scrollToIndex({ index: 1, animated: false });
+      setTimeout(() => {
+        setCurrentIndex(1);
+        setScrollIndex(1);
+        realIndexRef.current = 1;
+      }, 0);
+    } else {
+      realIndexRef.current = currentIndex;
+    }
+  }, [currentIndex, slides.length]);
+
+
   const goToSlide = (index: number) => {
-    flatListRef.current?.scrollToIndex({ index, animated: true });
-    setCurrentIndex(index);
+    flatListRef.current?.scrollToIndex({ index: index + 1, animated: true });
+    setCurrentIndex(index + 1);
+    setScrollIndex(index + 1);
+    realIndexRef.current = index + 1;
   };
 
   const renderSlide = ({ item }: { item: typeof slides[0] }) => (
     <ImageBackground source={item.image} style={styles.slide}>
-      {/* Main Content */}
       <View style={styles.content}>
-          {/* <Text style={styles.headline}>
-            {item.headline}
-          </Text> */}
-
-        {/* <View style={styles.coinDisplays}>
-          <View style={styles.coinRow}>
-            <View style={[styles.coinIcon, { backgroundColor: colors.coins.gc }]}>
-              <Text style={styles.coinIconText}>GC</Text>
-            </View>
-            <Text style={styles.coinAmount}>{item.gcAmount}</Text>
-          </View>
-
-          <View style={styles.coinRow}>
-            <View style={[styles.coinIcon, { backgroundColor: colors.coins.fc }]}>
-              <Text style={styles.coinIconText}>FC</Text>
-            </View>
-            <Text style={styles.coinAmount}>{item.fcAmount}</Text>
-          </View>
-        </View> */}
-
-        {/* CTA Button */}
         <TouchableOpacity style={styles.ctaButton} activeOpacity={0.9}>
           <Icon name="play" size={16} style={styles.playIcon} />
           <Text style={styles.ctaText}>Play Now!</Text>
@@ -78,26 +99,35 @@ const HeroCarousel: React.FC = () => {
     </ImageBackground>
   );
 
+
+  // Use scrollIndex for dot on web, currentIndex on native
+  let dotIndex = Platform.OS === 'web' ? scrollIndex : currentIndex;
+  let realIndex = dotIndex - 1;
+  if (dotIndex === 0) realIndex = slides.length - 1;
+  if (dotIndex === slides.length + 1) realIndex = 0;
+
   return (
     <View style={styles.container}>
       <FlatList
         ref={flatListRef}
-        data={slides}
+        data={data}
         renderItem={renderSlide}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(_, i) => String(i)}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScroll={onScroll}
+        onMomentumScrollEnd={onMomentumScrollEnd}
         scrollEventThrottle={16}
+        initialScrollIndex={1}
+        getItemLayout={(_, index) => ({ length: Dimensions.get('window').width, offset: Dimensions.get('window').width * index, index })}
       />
 
-      {/* Carousel Dots */}
       <View style={styles.carouselDots}>
         {slides.map((_, index) => (
           <TouchableOpacity
             key={index}
-            style={[styles.dot, currentIndex === index && styles.dotActive]}
+            style={[styles.dot, realIndex === index && styles.dotActive]}
             onPress={() => goToSlide(index)}
           />
         ))}

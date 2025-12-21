@@ -20,7 +20,7 @@ import { LoadingState, RootStackParamList, Game } from '@shared/types';
 import { useResponsive } from '@shared/hooks/useResponsive';
 import { colors } from '@shared/constants/theme';
 import Header from '../components/Header';
-import HeroBanner from '../components/HeroBanner';
+import HeroCarousel from '../components/HeroCarousel';
 import TabNavigation from '../components/TabNavigation';
 import GameSection from '../components/GameSection';
 import { Text } from 'react-native';
@@ -86,7 +86,7 @@ const HomeScreen: React.FC = () => {
           />
         }
       >
-        <HeroBanner />
+        <HeroCarousel />
 
         <TabNavigation activeTab={currentTab} onTabChange={handleTabChange} />
 
@@ -111,14 +111,16 @@ const HomeScreen: React.FC = () => {
               isRegionalTop10={true}
             />
 
-            <GameSection
-              title="ALREADY PLAYED"
-              iconName="green-play"
-              games={alreadyPlayedGames}
-              columns={columns}
-              onGamePress={handleGamePress}
-              onFavoritePress={handleFavoritePress}
-            />
+            {alreadyPlayedGames.length > 0 && (
+              <GameSection
+                title="ALREADY PLAYED"
+                iconName="green-play"
+                games={alreadyPlayedGames}
+                columns={columns}
+                onGamePress={handleGamePress}
+                onFavoritePress={handleFavoritePress}
+              />
+            )}
           </>
         ) : (
           <>

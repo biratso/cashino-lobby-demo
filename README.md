@@ -1,4 +1,12 @@
+
 # Cashino Lobby Demo
+
+## Quick Links
+
+- **[Android APK (Install via Expo)](https://expo.dev/accounts/birat077/projects/casino-lobby-demo/builds/d7cf0301-c509-4827-a6fc-66c1047afdbf)**
+- **[Web App](https://casino-lobby-demo.expo.app/)**
+- **[Demo Video](https://go.screenmal.com/watch/cTlrbxnYJvD)**
+- **[Source Code (GitHub)](https://github.com/biratso/cashino-lobby-demo)**
 
 A demo application for the Cashino lobby built with Expo, React Native, and TypeScript.
 

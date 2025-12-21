@@ -44,19 +44,26 @@ const gamesSlice = createSlice({
   name: 'games',
   initialState,
   reducers: {
+
     toggleFavorite: (state, action: PayloadAction<string>) => {
       const gameId = action.payload;
       const index = state.favoriteIds.indexOf(gameId);
-
       if (index > -1) {
         state.favoriteIds.splice(index, 1);
       } else {
         state.favoriteIds.push(gameId);
       }
-
       const game = state.allGames.find((g) => g.id === gameId);
       if (game) {
         game.isFavorite = !game.isFavorite;
+      }
+    },
+
+    markAlreadyPlayed: (state, action: PayloadAction<string>) => {
+      const gameId = action.payload;
+      const game = state.allGames.find((g) => g.id === gameId);
+      if (game) {
+        game.alreadyPlayed = true;
       }
     },
 
@@ -91,7 +98,7 @@ const gamesSlice = createSlice({
   },
 });
 
-export const { toggleFavorite, setCurrentTab } = gamesSlice.actions;
+export const { toggleFavorite, setCurrentTab, markAlreadyPlayed } = gamesSlice.actions;
 
 export const selectAllGames = (state: { games: GamesState }) => state.games.allGames;
 export const selectFavoriteIds = (state: { games: GamesState }) => state.games.favoriteIds;
@@ -110,7 +117,8 @@ export const selectRegionalGames = createSelector(
 
 export const selectAlreadyPlayedGames = createSelector(
   [selectAllGames, selectFavoriteIds],
-  (allGames, favoriteIds) => getSectionGames('already-played', allGames, favoriteIds)
+  (allGames, favoriteIds) =>
+    allGames.filter((game) => game.alreadyPlayed).map((game) => ({ ...game, isFavorite: favoriteIds.includes(game.id) }))
 );
 
 export const selectFavoriteGames = createSelector(

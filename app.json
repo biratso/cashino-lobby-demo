@@ -2,7 +2,7 @@
   "expo": {
     "name": "Casino Lobby",
     "slug": "casino-lobby-demo",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "dark",
@@ -23,7 +23,7 @@
         "backgroundColor": "#1A1625"
       },
       "package": "com.birat077.casinolobbydemo",
-      "version": "2"
+      "version": "4"
     },
     "web": {
       "favicon": "./assets/logo.png"
