@@ -11,6 +11,11 @@ This project is a comprehensive demo showcasing the lobby interface for the Cash
 - **Game Discovery**: Browse most popular games and region-specific recommendations
 - **Favorites Management**: Add/remove games to/from favorites with persistent storage
 - **Responsive Design**: Adaptive layout that adjusts to different screen sizes
+- **Landscape-Only Game Screen**: Dedicated gameplay screen locked to landscape orientation for immersive experience
+- **Floating Bottom Controls**: Modular, visually polished controls that float above the game area and adapt spacing for larger devices
+- **Safe Area Insets**: Insets applied only in landscape mode for a seamless, device-safe UI
+- **Orientation Overlay (Web)**: Overlay prompt for users to rotate their device to landscape on web
+- **Modular Components**: Clean, maintainable codebase with reusable UI components (e.g., BottomControls, CoinSwitcher, GradientText)
 - **Tab Navigation**: Switch between all games and favorites
 - **Pull-to-Refresh**: Refresh game data with a simple gesture
 - **Hero Banner**: Prominent display for featured content
@@ -44,26 +49,25 @@ This will open the Expo DevTools in your browser. You can then run the app on:
 ```
 cashino-lobby-demo/
 ├── .expo/                   # Expo build artifacts
-├── assets/                  # Static assets
-│   ├── adaptive-icon.png    # Android adaptive icon
-│   ├── favicon.png          # Web favicon
-│   ├── icon.png             # App icon
+├── assets/                  # Static assets and icons
+│   ├── icons/               # SVG and PNG icons for UI
 │   ├── logo.png             # App logo
-│   └── splash-icon.png      # Splash screen icon
+│   └── ...                  # Other images
 ├── src/                     # Source code
 │   ├── app/                 # App-level configuration
-│   │   ├── navigation/      # Navigation setup
+│   │   ├── navigation/      # Navigation setup (RootNavigator, etc.)
 │   │   └── store/           # Redux store configuration
 │   ├── features/            # Feature-based modules
-│   │   ├── game/            # Game-related features
+│   │   ├── game/            # Game screen and related logic
+│   │   │   └── screens/     # GamePlayScreen and modular controls
 │   │   └── home/            # Home screen features
-│   │       ├── components/  # UI components for home
-│   │       ├── screens/     # Screen components
+│   │       ├── components/  # Home UI components (Header, HeroBanner, etc.)
+│   │       ├── screens/     # HomeScreen
 │   │       └── store/       # Redux slice for games
-│   └── shared/              # Shared utilities
-│       ├── components/      # Reusable UI components
-│       ├── constants/       # App constants and mock data
-│       ├── hooks/           # Custom React hooks
+│   └── shared/              # Shared utilities and UI
+│       ├── components/      # Reusable UI (CoinSwitcher, GradientText, BottomControls, etc.)
+│       ├── constants/       # Theme, mock data, etc.
+│       ├── hooks/           # Custom React hooks (e.g., useResponsive)
 │       ├── services/        # External services (storage, etc.)
 │       └── types/           # TypeScript type definitions
 ├── App.tsx                  # Main app component
