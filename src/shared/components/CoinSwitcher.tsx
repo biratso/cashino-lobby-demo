@@ -104,7 +104,6 @@ const CoinSwitcher: React.FC<CoinSwitcherProps> = ({ coinBalance = 456.92 }) => 
 };
 
 const styles = StyleSheet.create({
-    // Coin Switcher Container
     coinSwitcher: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -114,7 +113,6 @@ const styles = StyleSheet.create({
         padding: 2,
     },
 
-    // Coin Buttons
     coinButton: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -168,7 +166,6 @@ const styles = StyleSheet.create({
         height: 3,
     },
 
-    // Coin Value
     coinValue: {
         fontSize: 16,
         fontWeight: '600',

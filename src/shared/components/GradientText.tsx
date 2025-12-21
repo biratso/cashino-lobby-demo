@@ -52,9 +52,7 @@ export const GradientText: React.FC<GradientTextProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    // Container for positioning
   },
   svg: {
-    // SVG will size itself
   },
 });
